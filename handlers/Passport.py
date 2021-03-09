@@ -94,3 +94,24 @@ class LoginHandler(BaseHandlers):
             return self.write(dict(errcode=RET.OK, errmsg="OK"))
         else:
             return self.write(dict(errcode=RET.DATAERR, errmsg="手机号或密码错误！"))
+
+# class LogoutHandler(BaseHandlers):
+#     """退出登录"""
+#     @required_login
+#     def get(self):
+#         # 清除session数据
+#         # sesssion = Session(self)
+#         self.session.clear()
+#         self.write(dict(errcode=RET.OK, errmsg="退出成功"))
+
+
+class CheckLoginHandler(BaseHandlers):
+    """检查登陆状态"""
+    def get(self):
+        # get_current_user方法在基类中已实现，它的返回值是session.data（用户保存在redis中
+        # 的session数据），如果为{} ，意味着用户未登录;否则，代表用户已登录
+        if self.get_current_user():
+            self.write({"errcode":RET.OK, "errmsg":"true", "data":{"name":self.session.data.get("name")}})
+        else:
+            self.write({"errcode":RET.SESSIONERR, "errmsg":"false"})
+

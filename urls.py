@@ -5,6 +5,7 @@ from handlers.BaseHandler import StaticFileHandler
 
 
 handlers = [
+    (r"/api/check_login", Passport.CheckLoginHandler), # 判断用户是否登录
     (r"/api/login", Passport.LoginHandler),
     (r"/api/register",Passport.RegisterHandler),
     (r"/api/imagecode", VerifyCode.ImageCodeHAndler),
